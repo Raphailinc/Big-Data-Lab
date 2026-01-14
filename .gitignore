@@ -1,2 +1,7 @@
 /.bsp/
 target/
+.bloop/
+.idea/
+.metals/
+.scala-build/
+.vscode/

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SBT_VERSION="$(
+  awk -F= '/^sbt.version=/{print $2}' project/build.properties | tr -d '\r'
+)"
+
+if [[ -z "${SBT_VERSION}" ]]; then
+  echo "Could not read sbt.version from project/build.properties" >&2
+  exit 1
+fi
+
+CACHE_BASE="${XDG_CACHE_HOME:-$HOME/.cache}"
+SBTW_CACHE_DIR="${CACHE_BASE}/sbtw/${SBT_VERSION}"
+SBT_LAUNCH_JAR="${SBTW_CACHE_DIR}/sbt-launch.jar"
+
+mkdir -p "${SBTW_CACHE_DIR}"
+
+if [[ ! -f "${SBT_LAUNCH_JAR}" ]]; then
+  URL="https://repo1.maven.org/maven2/org/scala-sbt/sbt-launch/${SBT_VERSION}/sbt-launch-${SBT_VERSION}.jar"
+  echo "Downloading sbt launcher ${SBT_VERSION}..." >&2
+
+  if command -v curl >/dev/null 2>&1; then
+    curl -fsSL "${URL}" -o "${SBT_LAUNCH_JAR}"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -qO "${SBT_LAUNCH_JAR}" "${URL}"
+  else
+    echo "Neither curl nor wget is available to download ${URL}" >&2
+    exit 1
+  fi
+fi
+
+exec java \
+  -Dsbt.boot.directory="${SBTW_CACHE_DIR}/boot" \
+  -jar "${SBT_LAUNCH_JAR}" \
+  "$@"
