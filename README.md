@@ -1,118 +1,32 @@
-# Big Data Lab 1 — Scala Application
+# Big Data Lab
 
-### Описание
+[![CI](https://github.com/Raphailinc/Big-Data-Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/Raphailinc/Big-Data-Lab/actions/workflows/ci.yml)
 
-Это приложение разработано на языке Scala для выполнения лабораторной работы по предмету "Большие данные". Программа генерирует список случайных чисел, вычисляет их среднее значение и находит количество элементов, которые отличаются от среднего на 5.
+[English](README.md) · [Русский](README.ru.md)
 
-### Функциональные возможности
+A Scala learning project that generates a list of integers, computes its mean and counts values beyond a deviation threshold.
 
-- Генерация случайного списка целых чисел.
-- Вычисление среднего значения для списка.
-- Подсчет количества элементов, которые отличаются от среднего значения на 5 или более.
+## What it does
 
-### Установка
+- Set list size, value range, threshold and seed from the CLI.
+- Compute the sample mean and deviation count.
+- Run unit tests and scalafmt through sbt.
 
-1. Убедитесь, что у вас установлен [Scala](https://www.scala-lang.org/download/) и [SBT (Scala Build Tool)](https://www.scala-sbt.org/download.html).
-   - Если `sbt` не установлен глобально, можно использовать скрипт-обёртку `./sbtw` (скачает `sbt-launcher` в `~/.cache`).
-2. Клонируйте этот репозиторий:
-
-   ```bash
-   git clone https://github.com/Raphailinc/bigdatalab.git
-   ```
-3. Перейдите в папку проекта:
-
-   ```bash
-   cd bigdatalab
-   ```
-
-### Запуск приложения
-
-1. Скомпилируйте и запустите приложение с помощью SBT:
-   ```bash
-   sbt run
-   ```
-   или без глобального `sbt`:
-   ```bash
-   ./sbtw run
-   ```
-2. После запуска программа сгенерирует список случайных чисел, выведет их на экран, вычислит среднее значение и покажет количество элементов, которые отличаются от среднего на 5.
-
-#### Параметры запуска (опционально)
+## Run locally
 
 ```bash
-sbt "run --size 20 --max 100 --diff 5 --seed 42"
+git clone https://github.com/Raphailinc/Big-Data-Lab.git
+cd Big-Data-Lab
+./sbtw run
 ```
 
-- `--size` — размер списка (по умолчанию `20`)
-- `--max` — верхняя граница значения (не включительно, по умолчанию `100`)
-- `--diff` — порог отклонения от среднего (по умолчанию `5`)
-- `--seed` — seed для воспроизводимой генерации
+## Checks
 
-### Тесты
-
-```bash
-sbt test
-```
-или:
 ```bash
 ./sbtw test
-```
-
-### Форматирование (scalafmt)
-
-```bash
-sbt scalafmtAll
-sbt scalafmtCheckAll
-```
-или:
-```bash
-./sbtw fmt
 ./sbtw check
 ```
 
-### Пример вывода
+## Scope and implementation notes
 
-```bash
-Случайный список: List(10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
-Среднее значение: 55.0
-Количество элементов, отличающихся от среднего на 5: 9
-```
-
-### Структура проекта
-
-```bash
-bigdatalab/
-│
-├── build.sbt            # Конфигурация SBT для проекта
-├── project/             # Файлы для настройки проекта SBT
-├── src/
-│   ├── main/scala/      # Основной код проекта
-│   │   └── example/
-│   │       ├── Main.scala   # Точка входа
-│   │       └── Stats.scala  # Логика вычислений
-│   └── test/scala/      # Тесты
-│       └── example/
-│           └── StatsSuite.scala
-└── README.md            # Описание проекта
-```
-
-### Зависимости
-
-Этот проект использует следующие технологии:
-
-* Scala 2.13.x
-* SBT
-
-### Лицензия
-
-Этот проект лицензирован под [MIT License](LICENSE).
-
-### Пояснения по структуре
-
-1. **Описание** — кратко объясняет суть программы.
-2. **Функциональные возможности** — что программа делает.
-3. **Установка и запуск** — как развернуть и запустить проект.
-4. **Пример вывода** — пример того, что программа покажет при выполнении.
-5. **Структура проекта** — описывает основные файлы в проекте.
-6. **Зависимости** — перечисление используемых технологий.
-7. **Лицензия** — тип лицензии, по которой распространяется проект.
+Requires a JDK; the wrapper downloads the sbt launcher when needed. Despite the repository name, this exercise runs locally on an in-memory list and does not implement distributed Spark processing.
